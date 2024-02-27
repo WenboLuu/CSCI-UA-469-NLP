@@ -34,17 +34,6 @@ def tokenize_clean(text, vocabulary, output_tokens_list):
     output_tokens_list.append(tokens)
 
 
-# # Function to populate matrix with TF-IDF values
-# def populate_matrix(tokens_list, matrix, vocab2index):
-#     for text_row, tokens in enumerate(tqdm(tokens_list)):
-#         for token in tokens:
-#             token_col = vocab2index[token]
-#             tf = tokens.count(token) / len(tokens)
-#             df = sum([1 for query in tokens_list if token in query])
-#             idf = np.log(len(tokens_list) / df)
-#             matrix[text_row, token_col] = tf * idf
-
-
 # Define the worker function at the top level of the module
 def worker_process(chunk_data):
     chunk, vocab2index, tokens_list = chunk_data
@@ -58,8 +47,8 @@ def worker_process(chunk_data):
                 token_col = vocab2index[token]
                 tf = tokens.count(token) / token_length
                 df = sum([1 for query in tokens_list if token in query])
-                idf = np.log(N / df)
-                partial_matrix[text_row, token_col] = tf * idf
+                idf = np.log(N + 1 / df + 1)
+                partial_matrix[text_row, token_col] = (tf / token_length) * idf
     return partial_matrix
 
 
