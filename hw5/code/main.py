@@ -164,11 +164,11 @@ def extract_features(sentences, with_tag=True):
                     stem(sentence[i + 2][0]) if i < len(sentence) - 2 else None
                 ),
                 "NEXT2_POS": sentence[i + 2][1] if i < len(sentence) - 2 else None,
-                # "BIO_PREDICTED": bio_tags_predicted[i],
-                # "BIO_PREVIOUS": bio_tags_predicted[i - 1] if i >= 1 else None,
-                # "BIO_NEXT": (
-                #     bio_tags_predicted[i + 1] if i < len(sentence) - 1 else None
-                # ),
+                "BIO_PREDICTED": bio_tags_predicted[i],
+                "BIO_PREVIOUS": bio_tags_predicted[i - 1] if i >= 1 else None,
+                "BIO_NEXT": (
+                    bio_tags_predicted[i + 1] if i < len(sentence) - 1 else None
+                ),
             }
             if with_tag:
                 feature.update(
